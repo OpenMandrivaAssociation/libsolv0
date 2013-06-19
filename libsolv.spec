@@ -12,7 +12,7 @@ Version: 0.3.0
 Release: 1
 Source0: %{name}-%{version}.tar.bz2
 %else
-Release: 0.%{scmrev}.1
+Release: 0.%{scmrev}.2
 Source0: %{name}-%{scmrev}.tar.xz
 %endif
 %else
@@ -83,6 +83,7 @@ Summary: Development files for %{name}
 Group: Development/C
 Requires: %{libname} = %{EVRD}
 Requires: %{extlibname} = %{EVRD}
+Provides: solv-devel = %{EVRD}
 
 %description -n %{devname}
 Development files (Headers etc.) for %{name}.
