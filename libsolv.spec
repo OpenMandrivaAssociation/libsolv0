@@ -12,7 +12,7 @@ Version: 0.3.0
 Release: 1
 Source0: %{name}-%{version}.tar.bz2
 %else
-Release: 0.%{scmrev}.2
+Release: 0.%{scmrev}.1
 Source0: %{name}-%{scmrev}.tar.xz
 %endif
 %else
@@ -24,11 +24,16 @@ Release: 0.%{beta}.%{scmrev}.1
 Source0: %{name}-%{scmrev}.tar.xz
 %endif
 %endif
+Patch0: libsolv-20130619-rpm5.patch
 Summary: Package dependency solver and repository storage system
 URL: http://en.opensuse.org/openSUSE:Libzypp_satsolver
 # See also: https://github.com/openSUSE/libsolv
 License: MIT
 Group: System/Libraries
+BuildRequires: cmake
+BuildRequires: pkgconfig(rpm)
+BuildRequires: bzip2-devel
+BuildRequires: pkgconfig(liblzma)
 
 %description
 Solving dependencies is the core functionality for any software management
@@ -94,7 +99,20 @@ Development files (Headers etc.) for %{name}.
 %else
 %setup -q -n %{name}
 %endif
-%cmake
+%apply_patches
+%cmake \
+	-DENABLE_RPM5:BOOL=ON \
+	-DENABLE_BZIP2_COMPRESSION:BOOL=ON \
+	-DENABLE_COMPS:BOOL=ON \
+	-DENABLE_HELIXREPO:BOOL=ON \
+	-DENABLE_LZMA_COMPRESSION:BOOL=ON \
+	-DENABLE_MDKREPO:BOOL=ON \
+	-DENABLE_RPM5:BOOL=ON \
+	-DENABLE_RPMDB:BOOL=ON \
+	-DENABLE_ENABLE_RPMDB_BYRPMHEADER:BOOL=ON \
+	-DENABLE_RPMDB_PUBKEY:BOOL=ON \
+	-DENABLE_RPMMD:BOOL=ON \
+	-DENABLE_SUSEREPO:BOOL=ON
 
 %build
 cd build
