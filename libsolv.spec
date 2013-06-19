@@ -34,6 +34,7 @@ BuildRequires: cmake
 BuildRequires: pkgconfig(rpm)
 BuildRequires: bzip2-devel
 BuildRequires: pkgconfig(liblzma)
+BuildRequires: pkgconfig(expat)
 
 %description
 Solving dependencies is the core functionality for any software management
