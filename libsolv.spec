@@ -1,6 +1,6 @@
 %define major 0
 %define beta %{nil}
-%define scmrev 20130619
+%define scmrev 20140110
 %define libname %mklibname solv %{major}
 %define extlibname %mklibname solvext %{major}
 %define devname %mklibname solv -d
@@ -9,7 +9,7 @@ Name: libsolv
 Version: 0.3.0
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
-Release: 5
+Release: 1
 Source0: %{name}-%{version}.tar.bz2
 %else
 Release: 0.%{scmrev}.1
@@ -24,7 +24,7 @@ Release: 0.%{beta}.%{scmrev}.1
 Source0: %{name}-%{scmrev}.tar.xz
 %endif
 %endif
-Patch0: libsolv-20130619-rpm5.patch
+Patch0: libsolv-20140110-rpm5.patch
 Summary: Package dependency solver and repository storage system
 URL: http://en.opensuse.org/openSUSE:Libzypp_satsolver
 # See also: https://github.com/openSUSE/libsolv
