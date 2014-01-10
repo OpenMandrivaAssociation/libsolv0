@@ -9,7 +9,7 @@ Name: libsolv
 Version: 0.3.0
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
-Release: 1
+Release: 2
 Source0: %{name}-%{version}.tar.bz2
 %else
 Release: 0.%{scmrev}.1
@@ -25,6 +25,7 @@ Source0: %{name}-%{scmrev}.tar.xz
 %endif
 %endif
 Patch0: libsolv-20140110-rpm5.patch
+Patch1: libsolv-20140110-repo2solv-omv.patch
 Summary: Package dependency solver and repository storage system
 URL: http://en.opensuse.org/openSUSE:Libzypp_satsolver
 # See also: https://github.com/openSUSE/libsolv
