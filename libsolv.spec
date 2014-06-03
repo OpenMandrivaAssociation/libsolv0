@@ -1,15 +1,15 @@
 %define major 0
 %define beta %{nil}
-%define scmrev 20140110
+%define scmrev 20140603
 %define libname %mklibname solv %{major}
 %define extlibname %mklibname solvext %{major}
 %define devname %mklibname solv -d
 
 Name: libsolv
-Version: 0.3.0
+Version: 0.6.1
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
-Release: 2
+Release: 1
 Source0: %{name}-%{version}.tar.bz2
 %else
 Release: 0.%{scmrev}.1
@@ -74,6 +74,7 @@ but highly unusable.
 %package -n %{libname}
 Summary: Package dependency solver and repository storage system
 Group: System/Libraries
+Requires: %{name} = %{EVRD}
 
 %description -n %{libname}
 Package dependency solver and repository storage system
