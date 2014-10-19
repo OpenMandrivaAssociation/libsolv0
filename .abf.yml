@@ -1,2 +1,4 @@
-sources:
+removed_sources:
   libsolv-20140603.tar.xz: 88fba902cf870bb98948134e782d43ca0fa9d396
+sources:
+  libsolv-0.6.6.tar.gz: dca7ddcc42932a87c5a22196c50cad549f16e414

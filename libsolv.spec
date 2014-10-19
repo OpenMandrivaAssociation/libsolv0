@@ -1,16 +1,16 @@
 %define major 0
 %define beta %{nil}
-%define scmrev 20140603
+%define scmrev %{nil}
 %define libname %mklibname solv %{major}
 %define extlibname %mklibname solvext %{major}
 %define devname %mklibname solv -d
 
 Name: libsolv
-Version: 0.6.1
+Version: 0.6.6
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
 Release: 3
-Source0: %{name}-%{version}.tar.bz2
+Source0: %{name}-%{version}.tar.gz
 %else
 Release: 0.%{scmrev}.1
 Source0: %{name}-%{scmrev}.tar.xz
@@ -139,3 +139,4 @@ cd build
 %{_libdir}/*.so
 %{_datadir}/cmake/Modules/FindLibSolv.cmake
 %{_mandir}/man3/*
+%{_mandir}/man1/*
