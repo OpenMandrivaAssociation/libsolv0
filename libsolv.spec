@@ -134,11 +134,9 @@ cd build
 
 %files -n %{libname}
 %{_libdir}/libsolv.so.%{major}
-%{_libdir}/libsolv.so.%{major}.*
 
 %files -n %{extlibname}
 %{_libdir}/libsolvext.so.%{major}
-%{_libdir}/libsolvext.so.%{major}.*
 
 %files -n %{devname}
 %{_includedir}/*
