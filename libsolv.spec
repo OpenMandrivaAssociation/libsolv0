@@ -9,7 +9,7 @@ Name: libsolv
 Version: 0.6.19
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
-Release: 2
+Release: 3
 Source0: %{name}-%{version}.tar.gz
 %else
 Release: 0.%{scmrev}.1
@@ -24,8 +24,7 @@ Release: 0.%{beta}.%{scmrev}.1
 Source0: %{name}-%{scmrev}.tar.xz
 %endif
 %endif
-Patch0: libsolv-20140110-rpm5.patch
-Patch1: libsolv-20140110-repo2solv-omv.patch
+Patch0: libsolv-20140110-repo2solv-omv.patch
 Summary: Package dependency solver and repository storage system
 URL: http://en.opensuse.org/openSUSE:Libzypp_satsolver
 # See also: https://github.com/openSUSE/libsolv
@@ -105,18 +104,23 @@ Development files (Headers etc.) for %{name}.
 %apply_patches
 
 %build
+
+# The parameters below are intended to ensure
+# that the DNF stack works correctly on OpenMandriva
+# The FEDORA switch sets some definitions up that aren't
+# otherwise available. The RPM5 definition switches on
+# support for RPM5 (without requiring patching).
 %cmake \
-	-DENABLE_RPM5:BOOL=ON \
+	-DRPM5:BOOL=ON -DFEDORA=1 \
+	-DENABLE_LZMA_COMPRESSION:BOOL=ON \
 	-DENABLE_BZIP2_COMPRESSION:BOOL=ON \
 	-DENABLE_COMPS:BOOL=ON \
 	-DENABLE_HELIXREPO:BOOL=ON \
-	-DENABLE_LZMA_COMPRESSION:BOOL=ON \
-	-DENABLE_MDKREPO:BOOL=ON \
-	-DENABLE_RPM5:BOOL=ON \
 	-DENABLE_RPMDB:BOOL=ON \
-	-DENABLE_ENABLE_RPMDB_BYRPMHEADER:BOOL=ON \
-	-DENABLE_RPMDB_PUBKEY:BOOL=ON \
+	-DENABLE_PUBKEY:BOOL=ON \
 	-DENABLE_RPMMD:BOOL=ON \
+	-DENABLE_RPMDB_BYRPMHEADER:BOOL=ON \
+	-DENABLE_MDKREPO:BOOL=ON \
 	-DENABLE_SUSEREPO:BOOL=ON
 
 %make
@@ -129,10 +133,12 @@ cd build
 %{_bindir}/*
 
 %files -n %{libname}
-%{_libdir}/libsolv.so.%{major}*
+%{_libdir}/libsolv.so.%{major}
+%{_libdir}/libsolv.so.%{major}.*
 
 %files -n %{extlibname}
-%{_libdir}/libsolvext.so.%{major}*
+%{_libdir}/libsolvext.so.%{major}
+%{_libdir}/libsolvext.so.%{major}.*
 
 %files -n %{devname}
 %{_includedir}/*
