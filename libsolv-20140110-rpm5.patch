@@ -1,6 +1,8 @@
---- libsolv/CMakeLists.txt.0000~	2014-01-09 13:29:48.000000000 +0100
-+++ libsolv/CMakeLists.txt	2014-01-10 13:03:26.482767098 +0100
-@@ -11,6 +11,7 @@ OPTION (ENABLE_RUBY "Build the ruby bind
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index fd1426b..2ba0a52 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -12,6 +12,7 @@ OPTION (ENABLE_TCL "Build the Tcl bindings?" OFF)
  
  OPTION (USE_VENDORDIRS "Install the bindings in vendor directories?" OFF)
  
@@ -8,7 +10,7 @@
  OPTION (ENABLE_RPMDB "Build with rpm database support?" OFF)
  OPTION (ENABLE_PUBKEY "Build with pubkey support?" OFF)
  OPTION (ENABLE_RPMDB_BYRPMHEADER "Build with rpmdb Header support?" OFF)
-@@ -141,7 +142,7 @@ IF (ENABLE_BZIP2_COMPRESSION)
+@@ -160,7 +161,7 @@ IF (ENABLE_BZIP2_COMPRESSION)
  FIND_PACKAGE (BZip2 REQUIRED)
  ENDIF (ENABLE_BZIP2_COMPRESSION)
  
@@ -17,7 +19,7 @@
  MESSAGE (STATUS "Enabling RPM 5 support")
  ADD_DEFINITIONS (-DRPM5)
  SET (ENABLE_RPMDB ON)
-@@ -149,7 +150,7 @@ SET (ENABLE_RPMMD ON)
+@@ -168,7 +169,7 @@ SET (ENABLE_RPMMD ON)
  FIND_PACKAGE (PkgConfig REQUIRED)
  PKG_CHECK_MODULES (RPM REQUIRED rpm)
  INCLUDE_DIRECTORIES (${RPM_INCLUDE_DIRS})
@@ -26,7 +28,7 @@
  
  IF (MULTI_SEMANTICS)
  MESSAGE (STATUS "Enabling multi dist support")
-@@ -169,12 +170,12 @@ IF (ENABLE_RPMDB)
+@@ -188,12 +189,12 @@ IF (ENABLE_RPMDB)
      SET(RPMDB_LIBRARY ${RPMIO_LIBRARY} ${RPMDB_LIBRARY})
    ENDIF (RPMIO_LIBRARY)
  
@@ -41,11 +43,13 @@
  
    # check if rpm contains a bundled berkeley db
    CHECK_INCLUDE_FILE(rpm/db.h HAVE_RPM_DB_H)
---- libsolv/bindings/python/CMakeLists.txt.0000~	2014-01-09 13:29:48.000000000 +0100
-+++ libsolv/bindings/python/CMakeLists.txt	2014-01-10 13:02:56.226100034 +0100
-@@ -24,7 +24,7 @@ INCLUDE_DIRECTORIES (${PYTHON_INCLUDE_PA
+diff --git a/bindings/python/CMakeLists.txt b/bindings/python/CMakeLists.txt
+index 73f2dca..685cb95 100644
+--- a/bindings/python/CMakeLists.txt
++++ b/bindings/python/CMakeLists.txt
+@@ -26,7 +26,7 @@ INCLUDE_DIRECTORIES (${PYTHON_INCLUDE_PATH})
  
- ADD_LIBRARY (bindings_python SHARED solv_python.c)
+ ADD_LIBRARY (bindings_python MODULE solv_python.c)
  SET_TARGET_PROPERTIES (bindings_python PROPERTIES PREFIX "" OUTPUT_NAME "_solv")
 -TARGET_LINK_LIBRARIES (bindings_python libsolvext libsolv ${SYSTEM_LIBRARIES})
 +TARGET_LINK_LIBRARIES (bindings_python libsolvext libsolv ${SYSTEM_LIBRARIES} -lpython2.7)

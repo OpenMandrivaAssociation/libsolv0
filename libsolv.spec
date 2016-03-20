@@ -6,7 +6,7 @@
 %define devname %mklibname solv -d
 
 Name: libsolv
-Version: 0.6.11
+Version: 0.6.19
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
 Release: 2
@@ -103,6 +103,8 @@ Development files (Headers etc.) for %{name}.
 %setup -q -n %{name}
 %endif
 %apply_patches
+
+%build
 %cmake \
 	-DENABLE_RPM5:BOOL=ON \
 	-DENABLE_BZIP2_COMPRESSION:BOOL=ON \
@@ -117,8 +119,6 @@ Development files (Headers etc.) for %{name}.
 	-DENABLE_RPMMD:BOOL=ON \
 	-DENABLE_SUSEREPO:BOOL=ON
 
-%build
-cd build
 %make
 
 %install
@@ -136,6 +136,7 @@ cd build
 
 %files -n %{devname}
 %{_includedir}/*
+%{_libdir}/pkgconfig/libsolv.pc
 %{_libdir}/*.so
 %{_datadir}/cmake/Modules/FindLibSolv.cmake
 %{_mandir}/man3/*

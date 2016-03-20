@@ -1,6 +1,8 @@
---- libsolv/tools/repo2solv.sh.omv~	2014-01-10 22:02:51.973191849 +0100
-+++ libsolv/tools/repo2solv.sh	2014-01-10 22:17:46.619870257 +0100
-@@ -80,6 +80,24 @@ susetags_findfile_cat() {
+diff --git a/tools/repo2solv.sh b/tools/repo2solv.sh
+index 49b623a..d73b146 100755
+--- a/tools/repo2solv.sh
++++ b/tools/repo2solv.sh
+@@ -84,6 +84,24 @@ susetags_findfile_cat() {
    fi
  }
  
@@ -25,7 +27,7 @@
  # signal an error if there is a problem
  set -e
  
-@@ -116,6 +134,8 @@ if test -z "$repotype" ; then
+@@ -122,6 +140,8 @@ if test -z "$repotype" ; then
    # autodetect repository type
    if test -d repodata -o -f repomd.xml; then
      repotype=rpmmd
@@ -34,7 +36,7 @@
    elif test_susetags ; then
      repotype=susetags
    else
-@@ -272,6 +292,8 @@ elif test "$repotype" = susetags ; then
+@@ -292,6 +312,8 @@ elif test "$repotype" = susetags ; then
    ) | susetags2solv $addautooption -c "${olddir}/content" $parser_options || exit 4
    test -n "$appdatafile" && rm -f "$appdatafile"
    cd "$olddir"
