@@ -1,29 +1,12 @@
 %define major 0
-%define beta %{nil}
-%define scmrev %{nil}
 %define libname %mklibname solv %{major}
 %define extlibname %mklibname solvext %{major}
 %define devname %mklibname solv -d
 
 Name: libsolv
-Version: 0.6.19
-%if "%{beta}" == ""
-%if "%{scmrev}" == ""
-Release: 3
-Source0: %{name}-%{version}.tar.gz
-%else
-Release: 0.%{scmrev}.1
-Source0: %{name}-%{scmrev}.tar.xz
-%endif
-%else
-%if "%{scmrev}" == ""
-Release: 0.%{beta}.1
-Source0: %{name}-%{version}%{beta}.tar.bz2
-%else
-Release: 0.%{beta}.%{scmrev}.1
-Source0: %{name}-%{scmrev}.tar.xz
-%endif
-%endif
+Version: 0.6.21
+Release: 1
+Source0: https://github.com/openSUSE/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
 Patch0: libsolv-20140110-repo2solv-omv.patch
 Summary: Package dependency solver and repository storage system
 URL: http://en.opensuse.org/openSUSE:Libzypp_satsolver
@@ -96,11 +79,7 @@ Provides: solv-devel = %{EVRD}
 Development files (Headers etc.) for %{name}.
 
 %prep
-%if "%{scmrev}" == ""
-%setup -q -n %{name}-%{version}%{beta}
-%else
-%setup -q -n %{name}
-%endif
+%setup -q
 %apply_patches
 
 %build

@@ -1,2 +1,4 @@
-sources:
+removed_sources:
   libsolv-0.6.19.tar.gz: 2066529e5a95aac15a79863bb937bb159b05cffa
+sources:
+  libsolv-0.6.21.tar.gz: 38b4303e355d1d15c2d45dfe0f83b6c050a1a162
