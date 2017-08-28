@@ -5,9 +5,16 @@
 
 Name: libsolv
 Version: 0.6.21
-Release: 1
+Release: 2
 Source0: https://github.com/openSUSE/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
-Patch0: libsolv-20140110-repo2solv-omv.patch
+
+# Backports from upstream
+# https://github.com/openSUSE/libsolv/commit/fe64933a5c9125401f0ae3e928c406d19075c202
+Patch0: libsolv-yumobs-remove-bogus-queue_empty-call.patch
+
+# OpenMandriva specific patches
+Patch1000: libsolv-20140110-repo2solv-omv.patch
+
 Summary: Package dependency solver and repository storage system
 URL: http://en.opensuse.org/openSUSE:Libzypp_satsolver
 # See also: https://github.com/openSUSE/libsolv
