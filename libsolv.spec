@@ -5,7 +5,7 @@
 
 Name: libsolv
 Version: 0.6.21
-Release: 5
+Release: 6
 Source0: https://github.com/openSUSE/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
 
 # Backports from upstream
