@@ -1,4 +1,4 @@
-From 8747e96db58a9c18e17861d4d8ce697a0b14fada Mon Sep 17 00:00:00 2001
+From a62c90ace108c8f2995341888c29283d0d62b9c2 Mon Sep 17 00:00:00 2001
 From: Neal Gompa <ngompa13@gmail.com>
 Date: Sun, 17 Sep 2017 09:34:57 +0000
 Subject: [PATCH] ext: Ignore DistEpoch entirely
@@ -56,14 +56,14 @@ index c339f62..9cc9b82 100644
  }
  
 diff --git a/ext/repo_rpmmd.c b/ext/repo_rpmmd.c
-index 729f4f7..ccc4d9f 100644
+index 729f4f7..73ab69b 100644
 --- a/ext/repo_rpmmd.c
 +++ b/ext/repo_rpmmd.c
 @@ -414,6 +414,12 @@ makeevr_atts(Pool *pool, struct parsedata *pd, const char **atts)
    if (r)
      {
        *c++ = '-';
-+      const char *rde = strchr(r, ':');
++      char *rde = strchr(r, ':');
 +      /* Drop DistEpoch from 'rel' */
 +      if (rde != 0)
 +        {

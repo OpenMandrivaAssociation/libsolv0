@@ -16,10 +16,10 @@ Patch1: libsolv-generic-system-release.patch
 
 # OpenMandriva specific patches
 Patch1000: libsolv-20140110-repo2solv-omv.patch
-# Attempt to ignore DistEpoch for solver calculations
-Patch1001: libsolv-ext-Ignore-DistEpoch-entirely.patch
 # Attempt to use correct flags for opening RPMDB
-Patch1002: libsolv-ext-rpmdb-rpm5-dbflags.patch
+Patch1001: libsolv-ext-rpmdb-rpm5-dbflags.patch
+# Attempt to ignore DistEpoch for solver calculations
+Patch1002: libsolv-ext-Ignore-DistEpoch-entirely.patch
 
 Summary: Package dependency solver and repository storage system
 URL: http://en.opensuse.org/openSUSE:Libzypp_satsolver
