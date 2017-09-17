@@ -1,6 +1,6 @@
-From d22e16b8cf6ab5a3919d66f26d60f72b99081d74 Mon Sep 17 00:00:00 2001
+From 8747e96db58a9c18e17861d4d8ce697a0b14fada Mon Sep 17 00:00:00 2001
 From: Neal Gompa <ngompa13@gmail.com>
-Date: Sun, 17 Sep 2017 02:03:02 +0000
+Date: Sun, 17 Sep 2017 09:34:57 +0000
 Subject: [PATCH] ext: Ignore DistEpoch entirely
 
 For now, we don't particularly care about DistEpoch, and would
@@ -8,7 +8,8 @@ rather ignore it, since DNF can't use it right now.
 ---
  ext/repo_mdk.c   | 6 ++++--
  ext/repo_rpmdb.c | 2 ++
- 2 files changed, 6 insertions(+), 2 deletions(-)
+ ext/repo_rpmmd.c | 6 ++++++
+ 3 files changed, 12 insertions(+), 2 deletions(-)
 
 diff --git a/ext/repo_mdk.c b/ext/repo_mdk.c
 index 345d416..cb8be6f 100644
@@ -35,7 +36,7 @@ index 345d416..cb8be6f 100644
  	  if (version)
  	    {
 diff --git a/ext/repo_rpmdb.c b/ext/repo_rpmdb.c
-index 92aef31..28d6f06 100644
+index c339f62..9cc9b82 100644
 --- a/ext/repo_rpmdb.c
 +++ b/ext/repo_rpmdb.c
 @@ -384,6 +384,7 @@ static char *headtoevr(RpmHead *h)
@@ -54,6 +55,23 @@ index 92aef31..28d6f06 100644
    return evr;
  }
  
+diff --git a/ext/repo_rpmmd.c b/ext/repo_rpmmd.c
+index 729f4f7..ccc4d9f 100644
+--- a/ext/repo_rpmmd.c
++++ b/ext/repo_rpmmd.c
+@@ -414,6 +414,12 @@ makeevr_atts(Pool *pool, struct parsedata *pd, const char **atts)
+   if (r)
+     {
+       *c++ = '-';
++      const char *rde = strchr(r, ':');
++      /* Drop DistEpoch from 'rel' */
++      if (rde != 0)
++        {
++            *rde = '\0';
++        }
+       strcpy(c, r);
+       c += strlen(c);
+     }
 -- 
 2.14.1
 
