@@ -1,0 +1,28 @@
+From 4ee365af29f991cd9fb441d3e7fac2fa3411afb2 Mon Sep 17 00:00:00 2001
+From: Neal Gompa <ngompa13@gmail.com>
+Date: Sun, 17 Sep 2017 06:11:21 +0000
+Subject: [PATCH] ext/repo_rpmdb: Use the correct BDB flags for RPM5
+
+---
+ ext/repo_rpmdb.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/ext/repo_rpmdb.c b/ext/repo_rpmdb.c
+index 28d6f06..9cc9b82 100644
+--- a/ext/repo_rpmdb.c
++++ b/ext/repo_rpmdb.c
+@@ -1189,7 +1189,11 @@ opendbenv(struct rpmdbstate *state)
+     {
+ #ifdef FEDORA
+       int serialize_fd = serialize_dbenv_ops(state);
++#ifdef RPM5
++      r = dbenv->open(dbenv, dbpath, DB_CREATE|DB_THREAD|DB_INIT_LOCK|DB_INIT_LOG|DB_INIT_MPOOL|DB_INIT_TXN, 0644);
++#else
+       r = dbenv->open(dbenv, dbpath, DB_CREATE|DB_INIT_CDB|DB_INIT_MPOOL, 0644);
++#endif
+       if (serialize_fd >= 0)
+ 	close(serialize_fd);
+ #else
+-- 
+2.14.1
+
