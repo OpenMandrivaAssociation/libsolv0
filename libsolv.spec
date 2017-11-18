@@ -5,7 +5,7 @@
 
 Name: libsolv
 Version: 0.6.21
-Release: 6
+Release: 7
 Source0: https://github.com/openSUSE/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
 
 # Backports from upstream
@@ -13,6 +13,8 @@ Source0: https://github.com/openSUSE/%{name}/archive/%{version}/%{name}-%{versio
 Patch0: libsolv-yumobs-remove-bogus-queue_empty-call.patch
 # https://github.com/openSUSE/libsolv/commit/f96788c66542de33a08ed10b0383ad5e44b375d4
 Patch1: libsolv-generic-system-release.patch
+# https://github.com/openSUSE/libsolv/commit/a7101c56ef86175b153404f56af0664246555c97
+Patch2: libsolv-yumobs-rulegen-use-implicitobsoleteusescolors.patch
 
 # OpenMandriva specific patches
 Patch1000: libsolv-20140110-repo2solv-omv.patch
