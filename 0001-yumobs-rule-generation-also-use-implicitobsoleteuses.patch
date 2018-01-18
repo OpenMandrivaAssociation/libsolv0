@@ -1,7 +1,8 @@
 From a7101c56ef86175b153404f56af0664246555c97 Mon Sep 17 00:00:00 2001
 From: Michael Schroeder <mls@suse.de>
 Date: Wed, 25 Oct 2017 10:22:27 +0200
-Subject: [PATCH] yumobs rule generation: also use implicitobsoleteusescolors
+Subject: [PATCH 1/3] yumobs rule generation: also use
+ implicitobsoleteusescolors
 
 This is similar to policy_findupdatepackages. The "this is
 somewhat wrong" comment also applies...
@@ -10,7 +11,7 @@ somewhat wrong" comment also applies...
  1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/src/rules.c b/src/rules.c
-index b5f3e3e1..2e3444b4 100644
+index b5f3e3e..2e3444b 100644
 --- a/src/rules.c
 +++ b/src/rules.c
 @@ -3398,6 +3398,8 @@ solver_addbestrules(Solver *solv, int havebestinstalljobs)
@@ -49,3 +50,6 @@ index b5f3e3e1..2e3444b4 100644
  		    continue;
  		  queue_pushunique(&qo, obs);
  		  break;
+-- 
+2.13.5
+

@@ -4,24 +4,19 @@
 %define devname %mklibname solv -d
 
 Name: libsolv
-Version: 0.6.21
-Release: 7
+Version: 0.6.30
+# Note the "0.X"! It's not yet ready for building!
+Release: 0.1
 Source0: https://github.com/openSUSE/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
 
 # Backports from upstream
-# https://github.com/openSUSE/libsolv/commit/fe64933a5c9125401f0ae3e928c406d19075c202
-Patch0: libsolv-yumobs-remove-bogus-queue_empty-call.patch
-# https://github.com/openSUSE/libsolv/commit/f96788c66542de33a08ed10b0383ad5e44b375d4
-Patch1: libsolv-generic-system-release.patch
-# https://github.com/openSUSE/libsolv/commit/a7101c56ef86175b153404f56af0664246555c97
-Patch2: libsolv-yumobs-rulegen-use-implicitobsoleteusescolors.patch
+# Have obsoletes account for implicit architecture coloring (mga#21827)
+Patch0001:   0001-yumobs-rule-generation-also-use-implicitobsoleteuses.patch
+Patch0002:   0002-Also-report-the-number-of-yumobs-rules-in-the-statis.patch
+Patch0003:   0003-Fix-droporphaned-when-there-is-no-installed-repo.patch
 
-# OpenMandriva specific patches
-Patch1000: libsolv-20140110-repo2solv-omv.patch
-# Attempt to use correct flags for opening RPMDB
-Patch1001: libsolv-ext-rpmdb-rpm5-dbflags.patch
-# Attempt to ignore DistEpoch for solver calculations
-Patch1002: libsolv-ext-Ignore-DistEpoch-entirely.patch
+# OpenMandriva patch for transitioning from RPM5
+Patch1001:   1001-ext-Ignore-DistEpoch-entirely.patch
 
 Summary: Package dependency solver and repository storage system
 URL: http://en.opensuse.org/openSUSE:Libzypp_satsolver
@@ -32,7 +27,10 @@ BuildRequires: cmake
 BuildRequires: pkgconfig(rpm)
 BuildRequires: bzip2-devel
 BuildRequires: pkgconfig(liblzma)
-BuildRequires: pkgconfig(expat)
+BuildRequires: pkgconfig(libxml-2.0)
+
+# Temporarily until everything is bootstrapped
+BuildConflicts: pkgconfig(rpm) >= 5
 
 %description
 Solving dependencies is the core functionality for any software management
@@ -88,6 +86,7 @@ Summary: Development files for %{name}
 Group: Development/C
 Requires: %{libname} = %{EVRD}
 Requires: %{extlibname} = %{EVRD}
+Provides: %{name}-devel = %{EVRD}
 Provides: solv-devel = %{EVRD}
 
 %description -n %{devname}
@@ -102,27 +101,29 @@ Development files (Headers etc.) for %{name}.
 # The parameters below are intended to ensure
 # that the DNF stack works correctly on OpenMandriva
 # The FEDORA switch sets some definitions up that aren't
-# otherwise available. The RPM5 definition switches on
-# support for RPM5 (without requiring patching).
+# otherwise available.
 %cmake \
-	-DRPM5:BOOL=ON -DFEDORA=1 \
+	-DFEDORA=1 \
+	-DWITH_LIBXML2:BOOL=ON \
+	-DENABLE_COMPLEX_DEPS:BOOL=ON \
+	-DENABLE_RPMDB_BYRPMHEADER:BOOL=ON \
 	-DENABLE_LZMA_COMPRESSION:BOOL=ON \
 	-DENABLE_BZIP2_COMPRESSION:BOOL=ON \
 	-DENABLE_COMPS:BOOL=ON \
+	-DENABLE_APPDATA:BOOL=ON \
 	-DENABLE_HELIXREPO:BOOL=ON \
 	-DENABLE_RPMDB:BOOL=ON \
 	-DENABLE_RPMMD:BOOL=ON \
-	-DENABLE_MDKREPO:BOOL=ON \
 	-DENABLE_SUSEREPO:BOOL=ON
 
-%make
+%make_build
 
 %install
-cd build
-%makeinstall_std
+%make_install -C build
 
 %files
 %{_bindir}/*
+%{_mandir}/man1/*
 
 %files -n %{libname}
 %{_libdir}/libsolv.so.%{major}
@@ -136,4 +137,3 @@ cd build
 %{_libdir}/*.so
 %{_datadir}/cmake/Modules/FindLibSolv.cmake
 %{_mandir}/man3/*
-%{_mandir}/man1/*

@@ -1,0 +1,25 @@
+From 804a86ca950f7b7600db58f6ccf3fae4e374a9e3 Mon Sep 17 00:00:00 2001
+From: Michael Schroeder <mls@suse.de>
+Date: Wed, 25 Oct 2017 11:17:42 +0200
+Subject: [PATCH 2/3] Also report the number of yumobs rules in the statistics
+
+---
+ src/solver.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/solver.c b/src/solver.c
+index 037b33d..e90f8a4 100644
+--- a/src/solver.c
++++ b/src/solver.c
+@@ -4079,7 +4079,7 @@ solver_solve(Solver *solv, Queue *job)
+   map_free(&installcandidatemap);
+   queue_free(&q);
+ 
+-  POOL_DEBUG(SOLV_DEBUG_STATS, "%d pkg rules, 2 * %d update rules, %d job rules, %d infarch rules, %d dup rules, %d choice rules, %d best rules\n", solv->pkgrules_end - 1, solv->updaterules_end - solv->updaterules, solv->jobrules_end - solv->jobrules, solv->infarchrules_end - solv->infarchrules, solv->duprules_end - solv->duprules, solv->choicerules_end - solv->choicerules, solv->bestrules_end - solv->bestrules);
++  POOL_DEBUG(SOLV_DEBUG_STATS, "%d pkg rules, 2 * %d update rules, %d job rules, %d infarch rules, %d dup rules, %d choice rules, %d best rules, %d yumobs rules\n", solv->pkgrules_end - 1, solv->updaterules_end - solv->updaterules, solv->jobrules_end - solv->jobrules, solv->infarchrules_end - solv->infarchrules, solv->duprules_end - solv->duprules, solv->choicerules_end - solv->choicerules, solv->bestrules_end - solv->bestrules, solv->yumobsrules_end - solv->yumobsrules);
+   POOL_DEBUG(SOLV_DEBUG_STATS, "overall rule memory used: %d K\n", solv->nrules * (int)sizeof(Rule) / 1024);
+ 
+   /* create weak map */
+-- 
+2.13.5
+

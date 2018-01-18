@@ -1,6 +1,6 @@
-From a62c90ace108c8f2995341888c29283d0d62b9c2 Mon Sep 17 00:00:00 2001
+From 1b6738e0fdfd1fb968f02fbc1e96748df7c79c62 Mon Sep 17 00:00:00 2001
 From: Neal Gompa <ngompa13@gmail.com>
-Date: Sun, 17 Sep 2017 09:34:57 +0000
+Date: Thu, 11 Jan 2018 06:46:44 -0500
 Subject: [PATCH] ext: Ignore DistEpoch entirely
 
 For now, we don't particularly care about DistEpoch, and would
@@ -12,7 +12,7 @@ rather ignore it, since DNF can't use it right now.
  3 files changed, 12 insertions(+), 2 deletions(-)
 
 diff --git a/ext/repo_mdk.c b/ext/repo_mdk.c
-index 345d416..cb8be6f 100644
+index 418bc61..9f7ee04 100644
 --- a/ext/repo_mdk.c
 +++ b/ext/repo_mdk.c
 @@ -183,15 +183,17 @@ repo_add_mdk(Repo *repo, FILE *fp, int flags)
@@ -36,10 +36,10 @@ index 345d416..cb8be6f 100644
  	  if (version)
  	    {
 diff --git a/ext/repo_rpmdb.c b/ext/repo_rpmdb.c
-index c339f62..9cc9b82 100644
+index 3916f9f..0d430a4 100644
 --- a/ext/repo_rpmdb.c
 +++ b/ext/repo_rpmdb.c
-@@ -384,6 +384,7 @@ static char *headtoevr(RpmHead *h)
+@@ -409,6 +409,7 @@ static char *headtoevr(RpmHead *h)
        sprintf(evr, "%s-%s", version, release);
      }
    distepoch = headstring(h, TAG_DISTEPOCH);
@@ -47,7 +47,7 @@ index c339f62..9cc9b82 100644
    if (distepoch && *distepoch)
      {
        int l = strlen(evr);
-@@ -391,6 +392,7 @@ static char *headtoevr(RpmHead *h)
+@@ -416,6 +417,7 @@ static char *headtoevr(RpmHead *h)
        evr[l++] = ':';
        strcpy(evr + l, distepoch);
      }
@@ -56,10 +56,10 @@ index c339f62..9cc9b82 100644
  }
  
 diff --git a/ext/repo_rpmmd.c b/ext/repo_rpmmd.c
-index 729f4f7..73ab69b 100644
+index 6c05281..72ad0a4 100644
 --- a/ext/repo_rpmmd.c
 +++ b/ext/repo_rpmmd.c
-@@ -414,6 +414,12 @@ makeevr_atts(Pool *pool, struct parsedata *pd, const char **atts)
+@@ -327,6 +327,12 @@ makeevr_atts(Pool *pool, struct parsedata *pd, const char **atts)
    if (r)
      {
        *c++ = '-';
@@ -73,5 +73,5 @@ index 729f4f7..73ab69b 100644
        c += strlen(c);
      }
 -- 
-2.14.1
+2.13.5
 
