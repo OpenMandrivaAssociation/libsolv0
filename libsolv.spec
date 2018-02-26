@@ -3,34 +3,34 @@
 %define extlibname %mklibname solvext %{major}
 %define devname %mklibname solv -d
 
-Name: libsolv
-Version: 0.6.30
+Summary:	Package dependency solver and repository storage system
+Name:		libsolv
+Version:	0.6.30
 # Note the "0.X"! It's not yet ready for building!
-Release: 0.1
-Source0: https://github.com/openSUSE/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
+Release:	0.1
+License:	MIT
+Group:		System/Libraries
+# See also: https://github.com/openSUSE/libsolv
+URL:		http://en.opensuse.org/openSUSE:Libzypp_satsolver
+Source0:	https://github.com/openSUSE/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
 
 # Backports from upstream
 # Have obsoletes account for implicit architecture coloring (mga#21827)
-Patch0001:   0001-yumobs-rule-generation-also-use-implicitobsoleteuses.patch
-Patch0002:   0002-Also-report-the-number-of-yumobs-rules-in-the-statis.patch
-Patch0003:   0003-Fix-droporphaned-when-there-is-no-installed-repo.patch
+Patch0001:	0001-yumobs-rule-generation-also-use-implicitobsoleteuses.patch
+Patch0002:	0002-Also-report-the-number-of-yumobs-rules-in-the-statis.patch
+Patch0003:	0003-Fix-droporphaned-when-there-is-no-installed-repo.patch
 
 # OpenMandriva patch for transitioning from RPM5
-Patch1001:   1001-ext-Ignore-DistEpoch-entirely.patch
+Patch1001:	1001-ext-Ignore-DistEpoch-entirely.patch
 
-Summary: Package dependency solver and repository storage system
-URL: http://en.opensuse.org/openSUSE:Libzypp_satsolver
-# See also: https://github.com/openSUSE/libsolv
-License: MIT
-Group: System/Libraries
-BuildRequires: cmake
-BuildRequires: pkgconfig(rpm)
-BuildRequires: bzip2-devel
-BuildRequires: pkgconfig(liblzma)
-BuildRequires: pkgconfig(libxml-2.0)
+BuildRequires:	cmake
+BuildRequires:	pkgconfig(rpm)
+BuildRequires:	pkgconfig(bzip2)
+BuildRequires:	pkgconfig(liblzma)
+BuildRequires:	pkgconfig(libxml-2.0)
 
 # Temporarily until everything is bootstrapped
-BuildConflicts: pkgconfig(rpm) >= 5
+BuildConflicts:	pkgconfig(rpm) >= 5
 
 %description
 Solving dependencies is the core functionality for any software management
@@ -67,27 +67,27 @@ removal of lots of packages - the resulting system is still consistent
 but highly unusable. 
 
 %package -n %{libname}
-Summary: Package dependency solver and repository storage system
-Group: System/Libraries
-Requires: %{name} = %{EVRD}
+Summary:	Package dependency solver and repository storage system
+Group:		System/Libraries
+Requires:	%{name} = %{EVRD}
 
 %description -n %{libname}
-Package dependency solver and repository storage system
+Package dependency solver and repository storage system.
 
 %package -n %{extlibname}
-Summary: Package dependency solver and repository storage system
-Group: System/Libraries
+Summary:	Package dependency solver and repository storage system
+Group:		System/Libraries
 
 %description -n %{extlibname}
-Package dependency solver and repository storage system
+Package dependency solver and repository storage system.
 
 %package -n %{devname}
-Summary: Development files for %{name}
-Group: Development/C
-Requires: %{libname} = %{EVRD}
-Requires: %{extlibname} = %{EVRD}
-Provides: %{name}-devel = %{EVRD}
-Provides: solv-devel = %{EVRD}
+Summary:	Development files for %{name}
+Group:		Development/C
+Requires:	%{libname} = %{EVRD}
+Requires:	%{extlibname} = %{EVRD}
+Provides:	%{name}-devel = %{EVRD}
+Provides:	solv-devel = %{EVRD}
 
 %description -n %{devname}
 Development files (Headers etc.) for %{name}.
@@ -116,10 +116,10 @@ Development files (Headers etc.) for %{name}.
 	-DENABLE_RPMMD:BOOL=ON \
 	-DENABLE_SUSEREPO:BOOL=ON
 
-%make_build
+%make
 
 %install
-%make_install -C build
+%makeinstall_std -C build
 
 %files
 %{_bindir}/*
