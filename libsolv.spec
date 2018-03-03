@@ -5,7 +5,7 @@
 
 Summary:	Package dependency solver and repository storage system
 Name:		libsolv
-Version:	0.6.30
+Version:	0.6.33
 # Note the "0.X"! It's not yet ready for building!
 Release:	0.1
 License:	MIT
@@ -15,10 +15,6 @@ URL:		http://en.opensuse.org/openSUSE:Libzypp_satsolver
 Source0:	https://github.com/openSUSE/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
 
 # Backports from upstream
-# Have obsoletes account for implicit architecture coloring (mga#21827)
-Patch0001:	0001-yumobs-rule-generation-also-use-implicitobsoleteuses.patch
-Patch0002:	0002-Also-report-the-number-of-yumobs-rules-in-the-statis.patch
-Patch0003:	0003-Fix-droporphaned-when-there-is-no-installed-repo.patch
 
 # OpenMandriva patch for transitioning from RPM5
 Patch1001:	1001-ext-Ignore-DistEpoch-entirely.patch
@@ -29,14 +25,13 @@ BuildRequires:	pkgconfig(bzip2)
 BuildRequires:	pkgconfig(liblzma)
 BuildRequires:	pkgconfig(libxml-2.0)
 
-# Temporarily until everything is bootstrapped
 BuildConflicts:	pkgconfig(rpm) >= 5
 
 %description
 Solving dependencies is the core functionality for any software management
 application on Linux.
 
-Dependancies are used to divide and share functionalities across multiple
+Dependencies are used to divide and share functionalities across multiple
 software elements.
 
 Linux (and Unix) follows two basic concepts to implement Divide & Conquer -
@@ -93,8 +88,7 @@ Provides:	solv-devel = %{EVRD}
 Development files (Headers etc.) for %{name}.
 
 %prep
-%setup -q
-%apply_patches
+%autosetup -p1
 
 %build
 
@@ -107,6 +101,8 @@ Development files (Headers etc.) for %{name}.
 	-DWITH_LIBXML2:BOOL=ON \
 	-DENABLE_COMPLEX_DEPS:BOOL=ON \
 	-DENABLE_RPMDB_BYRPMHEADER:BOOL=ON \
+	-DENABLE_RPMDB_LIBRPM:BOOL=ON \
+	-DENABLE_RPMPKG_LIBRPM:BOOL=ON \
 	-DENABLE_LZMA_COMPRESSION:BOOL=ON \
 	-DENABLE_BZIP2_COMPRESSION:BOOL=ON \
 	-DENABLE_COMPS:BOOL=ON \
@@ -116,10 +112,10 @@ Development files (Headers etc.) for %{name}.
 	-DENABLE_RPMMD:BOOL=ON \
 	-DENABLE_SUSEREPO:BOOL=ON
 
-%make
+%make_build
 
 %install
-%makeinstall_std -C build
+%make_install -C build
 
 %files
 %{_bindir}/*
@@ -134,6 +130,7 @@ Development files (Headers etc.) for %{name}.
 %files -n %{devname}
 %{_includedir}/*
 %{_libdir}/pkgconfig/libsolv.pc
+%{_libdir}/pkgconfig/libsolvext.pc
 %{_libdir}/*.so
 %{_datadir}/cmake/Modules/FindLibSolv.cmake
 %{_mandir}/man3/*
