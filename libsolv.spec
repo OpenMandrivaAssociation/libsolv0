@@ -28,10 +28,10 @@ Patch1001:	1001-ext-Ignore-DistEpoch-entirely.patch
 
 BuildRequires:	cmake
 BuildRequires:	pkgconfig(rpm)
+BuildRequires:	pkgconfig(zlib)
 BuildRequires:	pkgconfig(bzip2)
 BuildRequires:	pkgconfig(liblzma)
 BuildRequires:	pkgconfig(libxml-2.0)
-
 BuildConflicts:	pkgconfig(rpm) >= 5
 
 %description
