@@ -27,6 +27,7 @@ Source0:	https://github.com/openSUSE/%{name}/archive/%{version}/%{name}-%{versio
 Patch1001:	1001-ext-Ignore-DistEpoch-entirely.patch
 
 BuildRequires:	cmake
+BuildRequires:	pkgconfig(icu-i18n)
 BuildRequires:	pkgconfig(rpm)
 BuildRequires:	pkgconfig(zlib)
 BuildRequires:	pkgconfig(bzip2)
