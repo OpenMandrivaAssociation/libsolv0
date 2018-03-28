@@ -12,7 +12,7 @@
 
 Summary:	Package dependency solver and repository storage system
 Name:		libsolv
-Version:	0.6.33
+Version:	0.6.34
 # Note the "0.X"! It's not yet ready for building!
 Release:	0.1
 License:	MIT
@@ -32,7 +32,7 @@ BuildRequires:	pkgconfig(rpm)
 BuildRequires:	pkgconfig(zlib)
 BuildRequires:	pkgconfig(bzip2)
 BuildRequires:	pkgconfig(liblzma)
-BuildRequires:	pkgconfig(libxml-2.0)
+BuildRequires:	pkgconfig(expat)
 BuildConflicts:	pkgconfig(rpm) >= 5
 
 %description
@@ -106,7 +106,7 @@ Development files (Headers etc.) for %{name}.
 # otherwise available.
 %cmake \
 	-DFEDORA=1 \
-	-DWITH_LIBXML2:BOOL=ON \
+	-DWITH_LIBXML2:BOOL=OFF \
 	-DENABLE_COMPLEX_DEPS:BOOL=ON \
 	-DENABLE_RPMDB_BYRPMHEADER:BOOL=ON \
 	-DENABLE_RPMDB_LIBRPM:BOOL=ON \
