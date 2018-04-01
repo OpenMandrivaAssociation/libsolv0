@@ -14,7 +14,7 @@ Summary:	Package dependency solver and repository storage system
 Name:		libsolv
 Version:	0.6.34
 # Note the "0.X"! It's not yet ready for building!
-Release:	0.1
+Release:	0.2
 License:	MIT
 Group:		System/Libraries
 # See also: https://github.com/openSUSE/libsolv
@@ -25,6 +25,8 @@ Source0:	https://github.com/openSUSE/%{name}/archive/%{version}/%{name}-%{versio
 
 # OpenMandriva patch for transitioning from RPM5
 Patch1001:	1001-ext-Ignore-DistEpoch-entirely.patch
+# ARMv8 support https://github.com/openSUSE/libsolv/pull/260
+Patch1002:	https://github.com/openSUSE/libsolv/pull/260/commits/3c2b27fbf1c2e7b2d91c2b43a54dbcdf1771dcb0.patch
 
 BuildRequires:	cmake
 BuildRequires:	pkgconfig(icu-i18n)
