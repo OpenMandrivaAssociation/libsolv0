@@ -14,7 +14,7 @@ Summary:	Package dependency solver and repository storage system
 Name:		libsolv
 Version:	0.6.34
 # Note the "0.X"! It's not yet ready for building!
-Release:	0.3
+Release:	0.4
 License:	MIT
 Group:		System/Libraries
 # See also: https://github.com/openSUSE/libsolv
