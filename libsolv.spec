@@ -154,7 +154,7 @@ Development files (Headers etc.) for %{name}.
 %exclude %{_bindir}/solv
 %{_mandir}/man1/*
 
-files demo
+%files demo
 %{_bindir}/solv
 
 %files -n %{libname}
