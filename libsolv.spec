@@ -144,10 +144,10 @@ Development files (Headers etc.) for %{name}.
 	-DENABLE_SUSEREPO:BOOL=ON
 
 %build
-%ninja_build
+%ninja -C build
 
 %install
-%ninja_install
+%ninja_install -C build
 
 %files
 %{_bindir}/*
