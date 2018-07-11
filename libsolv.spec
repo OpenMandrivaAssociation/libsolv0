@@ -13,8 +13,7 @@
 Summary:	Package dependency solver and repository storage system
 Name:		libsolv
 Version:	0.6.34
-# Note the "0.X"! It's not yet ready for building!
-Release:	0.4
+Release:	1
 License:	MIT
 Group:		System/Libraries
 # See also: https://github.com/openSUSE/libsolv
@@ -22,6 +21,12 @@ URL:		http://en.opensuse.org/openSUSE:Libzypp_satsolver
 Source0:	https://github.com/openSUSE/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
 
 # Backports from upstream
+Patch0001:	0001-source-binary-rpm-detection-heuristic-when-ENABLE_RP.patch
+Patch0002:	0002-Tweak-source-heuristic-in-ENABLE_RPMPKG_LIBRPM-case.patch
+Patch0003:	0003-Remove-wrong-solv_free-data-vincore-in-repodata_inte.patch
+Patch0004:	0004-bindings-expose-repodata_str2dir-repodata_dir2str-an.patch
+Patch0005:	0005-Tweak-documentation-of-add_dirstr-method.patch
+Patch0006:	0006-Fix-fp-double-close-work-around-some-false-positives.patch
 
 # OpenMandriva patch for transitioning from RPM5
 Patch1001:	1001-ext-Ignore-DistEpoch-entirely.patch
@@ -31,13 +36,19 @@ Patch1002:	https://github.com/openSUSE/libsolv/pull/260/commits/3c2b27fbf1c2e7b2
 Patch1003:	libsolv-0.6.34-znver1.patch
 
 BuildRequires:	cmake
+BuildRequires:	ninja
 BuildRequires:	pkgconfig(icu-i18n)
 BuildRequires:	pkgconfig(rpm)
 BuildRequires:	pkgconfig(zlib)
 BuildRequires:	pkgconfig(bzip2)
 BuildRequires:	pkgconfig(liblzma)
-BuildRequires:	pkgconfig(expat)
+BuildRequires:	pkgconfig(libxml-2.0)
 BuildConflicts:	pkgconfig(rpm) >= 5
+Requires:	gzip
+Requires:	bzip2
+Requires:	xz
+Requires:	coreutils
+Requires:	findutils
 
 %description
 Solving dependencies is the core functionality for any software management
@@ -73,6 +84,16 @@ sometimes unexpected implications. A broken dependency might result in
 removal of lots of packages - the resulting system is still consistent
 but highly unusable. 
 
+%package demo
+Summary:	Package dependency solver and repository storage system
+Group:		System/Libraries
+Requires:	%{name} = %{EVRD}
+Requires:	curl
+Requires:	gnupg
+
+%description demo
+Applications demoing the %{name} library.
+
 %package -n %{libname}
 Summary:	Package dependency solver and repository storage system
 Group:		System/Libraries
@@ -102,15 +123,13 @@ Development files (Headers etc.) for %{name}.
 %prep
 %autosetup -p1
 
-%build
-
 # The parameters below are intended to ensure
 # that the DNF stack works correctly on OpenMandriva
 # The FEDORA switch sets some definitions up that aren't
 # otherwise available.
-%cmake \
+%cmake -GNinja \
 	-DFEDORA=1 \
-	-DWITH_LIBXML2:BOOL=OFF \
+	-DWITH_LIBXML2:BOOL=ON \
 	-DENABLE_COMPLEX_DEPS:BOOL=ON \
 	-DENABLE_RPMDB_BYRPMHEADER:BOOL=ON \
 	-DENABLE_RPMDB_LIBRPM:BOOL=ON \
@@ -121,17 +140,22 @@ Development files (Headers etc.) for %{name}.
 	-DENABLE_APPDATA:BOOL=ON \
 	-DENABLE_HELIXREPO:BOOL=ON \
 	-DENABLE_RPMDB:BOOL=ON \
-	-DENABLE_RPMMD:BOOL=ON \
+	-DENABLE_COMPLEX_DEPS:BOOL=ON \
 	-DENABLE_SUSEREPO:BOOL=ON
 
-%make_build
+%build
+%ninja_build
 
 %install
-%make_install -C build
+%ninja_install
 
 %files
 %{_bindir}/*
+%exclude %{_bindir}/solv
 %{_mandir}/man1/*
+
+files demo
+%{_bindir}/solv
 
 %files -n %{libname}
 %{_libdir}/libsolv.so.%{major}
