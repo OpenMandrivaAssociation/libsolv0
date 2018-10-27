@@ -71,6 +71,7 @@ sometimes unexpected implications. A broken dependency might result in
 removal of lots of packages - the resulting system is still consistent
 but highly unusable. 
 
+%if "%{libname}" != "%{name}"
 %package -n %{libname}
 Summary:	Package dependency solver and repository storage system
 Group:		System/Libraries
@@ -78,6 +79,7 @@ Requires:	libsolv >= %{EVRD}
 
 %description -n %{libname}
 Package dependency solver and repository storage system.
+%endif
 
 %package -n %{extlibname}
 Summary:	Package dependency solver and repository storage system
@@ -126,7 +128,11 @@ rm -rf %{buildroot}%{_bindir} \
 	%{buildroot}%{_libdir}/*.so \
 	%{buildroot}%{_datadir}/cmake
 
+%if "%{libname}" != "%{name}"
 %files -n %{libname}
+%else
+%files
+%endif
 %{_libdir}/libsolv.so.%{major}
 
 %files -n %{extlibname}
