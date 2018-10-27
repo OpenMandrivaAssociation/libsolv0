@@ -1,24 +1,17 @@
-# (ngompa) disable rpmlint to avoid terrible cyclic dependency problem in rpm5->rpm4 + python2->python3 transition
-# remove after rpm5->rpm4 transition is complete
-%undefine _build_pkgcheck_set
-%undefine _build_pkgcheck_srpm
-%undefine _nonzero_exit_pkgcheck_terminate_build
-###
-
 %define major 0
 %define libname %mklibname solv %{major}
 %define extlibname %mklibname solvext %{major}
 %define devname %mklibname solv -d
 
-Summary:	Package dependency solver and repository storage system
-Name:		libsolv
+Summary:	Old version of the libsolv dependency resolution library
+Name:		libsolv0
 Version:	0.6.35
-Release:	2
+Release:	3
 License:	MIT
 Group:		System/Libraries
 # See also: https://github.com/openSUSE/libsolv
 URL:		http://en.opensuse.org/openSUSE:Libzypp_satsolver
-Source0:	https://github.com/openSUSE/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
+Source0:	https://github.com/openSUSE/%{name}/archive/%{version}/libsolv-%{version}.tar.gz
 
 # OpenMandriva patch for transitioning from RPM5
 Patch1001:	1001-ext-Ignore-DistEpoch-entirely.patch
@@ -78,20 +71,10 @@ sometimes unexpected implications. A broken dependency might result in
 removal of lots of packages - the resulting system is still consistent
 but highly unusable. 
 
-%package demo
-Summary:	Package dependency solver and repository storage system
-Group:		System/Libraries
-Requires:	%{name} = %{EVRD}
-Requires:	curl
-Requires:	gnupg
-
-%description demo
-Applications demoing the %{name} library.
-
 %package -n %{libname}
 Summary:	Package dependency solver and repository storage system
 Group:		System/Libraries
-Requires:	%{name} = %{EVRD}
+Requires:	libsolv >= %{EVRD}
 
 %description -n %{libname}
 Package dependency solver and repository storage system.
@@ -99,23 +82,13 @@ Package dependency solver and repository storage system.
 %package -n %{extlibname}
 Summary:	Package dependency solver and repository storage system
 Group:		System/Libraries
+Requires:	%{libname} = %{EVRD}
 
 %description -n %{extlibname}
 Package dependency solver and repository storage system.
 
-%package -n %{devname}
-Summary:	Development files for %{name}
-Group:		Development/C
-Requires:	%{libname} = %{EVRD}
-Requires:	%{extlibname} = %{EVRD}
-Provides:	%{name}-devel = %{EVRD}
-Provides:	solv-devel = %{EVRD}
-
-%description -n %{devname}
-Development files (Headers etc.) for %{name}.
-
 %prep
-%autosetup -p1
+%autosetup -p1 -n libsolv-%{version}
 
 # The parameters below are intended to ensure
 # that the DNF stack works correctly on OpenMandriva
@@ -145,24 +118,16 @@ Development files (Headers etc.) for %{name}.
 %install
 %ninja_install -C build
 
-%files
-%{_bindir}/*
-%exclude %{_bindir}/solv
-%{_mandir}/man1/*
-
-%files demo
-%{_bindir}/solv
+# Not for compat packages...
+rm -rf %{buildroot}%{_bindir} \
+	%{buildroot}%{_mandir} \
+	%{buildroot}%{_includedir} \
+	%{buildroot}%{_libdir}/pkgconfig \
+	%{buildroot}%{_libdir}/*.so \
+	%{buildroot}%{_datadir}/cmake
 
 %files -n %{libname}
 %{_libdir}/libsolv.so.%{major}
 
 %files -n %{extlibname}
 %{_libdir}/libsolvext.so.%{major}
-
-%files -n %{devname}
-%{_includedir}/*
-%{_libdir}/pkgconfig/libsolv.pc
-%{_libdir}/pkgconfig/libsolvext.pc
-%{_libdir}/*.so
-%{_datadir}/cmake/Modules/FindLibSolv.cmake
-%{_mandir}/man3/*
