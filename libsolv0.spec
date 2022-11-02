@@ -5,13 +5,13 @@
 
 Summary:	Old version of the libsolv dependency resolution library
 Name:		libsolv0
-Version:	0.6.35
-Release:	4
+Version:	0.6.39
+Release:	1
 License:	MIT
 Group:		System/Libraries
 # See also: https://github.com/openSUSE/libsolv
 URL:		http://en.opensuse.org/openSUSE:Libzypp_satsolver
-Source0:	https://github.com/openSUSE/%{name}/archive/%{version}/libsolv-%{version}.tar.gz
+Source0:	https://github.com/openSUSE/libsolv/archive/refs/tags/%{version}.tar.gz
 
 # OpenMandriva patch for transitioning from RPM5
 Patch1001:	1001-ext-Ignore-DistEpoch-entirely.patch
