@@ -6,7 +6,7 @@
 Summary:	Old version of the libsolv dependency resolution library
 Name:		libsolv0
 Version:	0.6.39
-Release:	1
+Release:	2
 License:	MIT
 Group:		System/Libraries
 # See also: https://github.com/openSUSE/libsolv
